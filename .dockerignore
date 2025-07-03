@@ -1,11 +1,23 @@
+# Archivos y directorios a ignorar en Docker build
 target/
-!target/*.jar
-.git
+.git/
 .gitignore
-README.md
-Dockerfile
-.dockerignore
 *.md
-.mvn/wrapper/maven-wrapper.jar
-.mvn/wrapper/maven-wrapper.properties
+HELP.md
+README.md
+.mvn/
+mvnw
+mvnw.cmd
+*.iml
+.idea/
+.vscode/
+*.log
+*.tmp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+query/
+src/test/
 

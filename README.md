@@ -1,203 +1,173 @@
-# Exam Perez - API REST Spring Boot
+# Exam_Perez - Sistema de Gestión de Productos
 
-## 📋 Descripción del Proyecto
+Sistema de gestión de productos desarrollado con Spring Boot, que incluye autenticación JWT, API REST y documentación con Swagger.
 
-API REST completa desarrollada con Spring Boot que implementa un sistema de gestión de productos y usuarios con autenticación JWT, autorización por roles, validaciones completas y documentación Swagger.
+## 🚀 Características
 
-## 🎯 Criterios de Evaluación Cumplidos
+- **Autenticación JWT**: Sistema de login seguro con tokens
+- **API REST**: Endpoints para gestión de productos y usuarios
+- **Base de datos H2**: Base de datos en memoria para desarrollo y producción
+- **Swagger UI**: Documentación interactiva de la API
+- **Docker**: Contenederización para deploy fácil
+- **Health Check**: Monitoreo de salud de la aplicación
 
-### ✅ 1. Diseño y Arquitectura (MVC + Capas)
-- **Controller**: `AuthController`, `ProductController`
-- **Service**: `UserService`, `ProductService`, `CustomUserDetailsService`
-- **Repository**: `UserRepository`, `ProductRepository`
-- **Entity**: `User`, `Product`
-- **Config**: `SecurityConfig`, `SwaggerConfig`, `JwtUtil`, etc.
+## 📋 Tecnologías
 
-### ✅ 2. Funcionalidad de la API (CRUD completo)
-- **GET** `/api/products` - Obtener todos los productos
-- **GET** `/api/products/{id}` - Obtener producto por ID
-- **POST** `/api/products` - Crear nuevo producto
-- **PUT** `/api/products/{id}` - Actualizar producto
-- **DELETE** `/api/products/{id}` - Eliminar producto
+- Java 17
+- Spring Boot 3.5.3
+- Spring Security
+- Spring Data JPA
+- H2 Database
+- JWT (JSON Web Tokens)
+- Swagger/OpenAPI 3
+- Docker
+- Maven
 
-### ✅ 3. Seguridad (JWT / Spring Security)
-- Autenticación JWT implementada
-- Autorización por roles (ADMIN, USER)
-- Rutas protegidas según rol
-- Filtro de autenticación personalizado
+## 🔧 Instalación y Ejecución
 
-### ✅ 4. Documentación con Swagger/OpenAPI
-- Configuración completa de Swagger
-- Documentación de todos los endpoints
-- Modelos y esquemas documentados
-- Interfaz Swagger UI disponible
+### Opción 1: Usando Docker (Recomendado)
 
-### ✅ 5. Validación de datos y manejo de errores
-- Anotaciones de validación: `@NotNull`, `@Size`, `@Email`, etc.
-- Manejo global de excepciones
-- Respuestas consistentes de error
-
-### ✅ 6. Conexión a base de datos MySQL (JPA/Hibernate
-- Configuración de MySQL en `application.properties`
-- Entidades JPA con relaciones
-- Repositorios con consultas personalizadas
-
-### ✅ 7. Buenas prácticas de código
-- Código limpio y bien comentado
-- Separación de responsabilidades
-- Nombres descriptivos
-- Manejo de transacciones
-
-## 🚀 Instalación y Configuración
-
-### Prerrequisitos
-- Java 17+
-- MySQL 8.0+
-- Maven 3.6+
-
-### Configuración de Base de Datos
-```sql
-CREATE DATABASE exam_perez_db;
-```
-
-### Variables de Configuración
-Editar `src/main/resources/application.properties`:
-```properties
-spring.datasource.username=tu_usuario_mysql
-spring.datasource.password=tu_password_mysql
-```
-http://localhost:8080/api/auth/login
-### Ejecutar la Aplicación
+#### En Windows:
 ```bash
-mvn clean install
-mvn spring-boot:run
+# Ejecutar el script de deploy
+deploy.bat
 ```
 
-## 📚 Endpoints Principales
+#### En Linux/Mac:
+```bash
+# Dar permisos de ejecución
+chmod +x deploy.sh
 
-### Autenticación
-- **POST** `/api/auth/login` - Iniciar sesión
-- **POST** `/api/auth/register` - Registrar usuario
-- **GET** `/api/auth/validate` - Validar token
-- **GET** `/api/auth/me` - Información del usuario actual
+# Ejecutar el script de deploy
+./deploy.sh
+```
 
-### Productos (CRUD Completo)
-- **GET** `/api/products` - Listar productos (USER/ADMIN)
-- **GET** `/api/products/{id}` - Obtener producto (USER/ADMIN)
-- **POST** `/api/products` - Crear producto (ADMIN)
-- **PUT** `/api/products/{id}` - Actualizar producto (ADMIN)
-- **DELETE** `/api/products/{id}` - Eliminar producto (ADMIN)
-- **GET** `/api/products/search?query=...` - Buscar productos
-- **GET** `/api/products/category/{category}` - Productos por categoría
-- **GET** `/api/products/low-stock` - Productos con stock bajo (ADMIN)
+#### Manualmente con Docker:
+```bash
+# Construir imagen
+docker build -t exam-perez:latest .
 
-## 🔐 Usuarios de Prueba
+# Ejecutar contenedor
+docker run -d --name exam-perez -p 8080:8080 --restart unless-stopped exam-perez:latest
+```
 
-La aplicación crea automáticamente usuarios de prueba:
+### Opción 2: Ejecución Local
 
-### Administrador
-- **Username**: `admin`
-- **Password**: `admin123`
-- **Rol**: ADMIN
-- **Permisos**: Acceso completo a todas las operaciones
+```bash
+# Compilar y ejecutar
+mvn spring-boot:run
 
-### Usuario Normal
-- **Username**: `usuario`
-- **Password**: `user123`
-- **Rol**: USER
-- **Permisos**: Solo lectura de productos
+# O con perfil específico
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
 
-## 📖 Documentación Swagger
+## 🌐 Endpoints
 
-Una vez ejecutada la aplicación, acceder a:
+### Aplicación Principal
+- **Aplicación**: http://localhost:8080
 - **Swagger UI**: http://localhost:8080/swagger-ui.html
 - **API Docs**: http://localhost:8080/api-docs
+- **H2 Console**: http://localhost:8080/h2-console
+- **Health Check**: http://localhost:8080/actuator/health
 
-## 🧪 Testing con Postman
+### H2 Database Console
+- **URL**: `jdbc:h2:mem:proddb` (producción) o `jdbc:h2:mem:devdb` (desarrollo)
+- **Username**: `sa`
+- **Password**: (vacío)
 
-### 1. Login
-```http
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
+## 🔑 Credenciales por Defecto
 
-{
-    "usernameOrEmail": "admin",
-    "password": "admin123"
-}
+### Usuarios del Sistema
+- **Admin**: 
+  - Username: `admin`
+  - Password: `password123`
+- **Usuario**: 
+  - Username: `user1`
+  - Password: `password123`
+
+## 📊 API Endpoints
+
+### Autenticación
+- `POST /api/auth/login` - Iniciar sesión
+- `POST /api/auth/register` - Registrar usuario
+
+### Productos
+- `GET /api/products` - Listar productos
+- `GET /api/products/{id}` - Obtener producto por ID
+- `POST /api/products` - Crear producto (requiere autenticación)
+- `PUT /api/products/{id}` - Actualizar producto (requiere autenticación)
+- `DELETE /api/products/{id}` - Eliminar producto (requiere autenticación)
+
+## 🐳 Docker
+
+### Comandos Útiles
+```bash
+# Ver logs del contenedor
+docker logs -f exam-perez
+
+# Detener contenedor
+docker stop exam-perez
+
+# Eliminar contenedor
+docker rm exam-perez
+
+# Ver estado del contenedor
+docker ps -a | grep exam-perez
 ```
 
-### 2. Crear Producto (con token)
-```http
-POST http://localhost:8080/api/products
-Authorization: Bearer {tu_token_jwt}
-Content-Type: application/json
+## 🔧 Configuración
 
-{
-    "name": "Nuevo Producto",
-    "description": "Descripción del producto",
-    "price": 100.00,
-    "stock": 50,
-    "category": "Tecnología",
-    "brand": "Marca Test"
-}
+### Perfiles de Configuración
+- **dev**: Para desarrollo local con logging detallado
+- **prod**: Para producción con configuraciones optimizadas
+
+### Variables de Entorno
+- `SPRING_PROFILES_ACTIVE`: Perfil a usar (dev/prod)
+- `JWT_SECRET`: Clave secreta para JWT
+- `JWT_EXPIRATION`: Tiempo de expiración del token
+
+## 📝 Desarrollo
+
+### Estructura del Proyecto
+```
+src/
+├── main/
+│   ├── java/
+│   │   └── com/tecsup/edu/pe/exam_perez/
+│   │       ├── config/          # Configuraciones
+│   │       ├── controller/      # Controladores REST
+│   │       ├── dto/             # DTOs
+│   │       ├── entity/          # Entidades JPA
+│   │       ├── exception/       # Manejo de excepciones
+│   │       ├── repository/      # Repositorios JPA
+│   │       └── service/         # Lógica de negocio
+│   └── resources/
+│       ├── application.properties
+│       ├── application-dev.properties
+│       ├── application-prod.properties
+│       └── data.sql             # Datos iniciales
 ```
 
-## 🎨 Arquitectura del Proyecto
+## 🛠️ Troubleshooting
 
+### Errores Comunes
+1. **Puerto 8080 ocupado**: Cambiar puerto en `application.properties`
+2. **Error de permisos en Docker**: Ejecutar con permisos de administrador
+3. **Problema con JWT**: Verificar que la clave secreta sea suficientemente larga
+
+### Logs
+```bash
+# Ver logs de la aplicación
+docker logs exam-perez
+
+# Seguir logs en tiempo real
+docker logs -f exam-perez
 ```
-src/main/java/com/tecsup/edu/pe/exam_perez/
-├── config/           # Configuraciones (Security, JWT, Swagger)
-├── controller/       # Controladores REST
-├── dto/             # Data Transfer Objects
-├── entity/          # Entidades JPA
-├── exception/       # Manejo de excepciones
-├── repository/      # Repositorios de datos
-└── service/         # Lógica de negocio
-```
 
-## 🔧 Tecnologías Utilizadas
+## 📞 Soporte
 
-- **Spring Boot 3.5.3**
-- **Spring Security** (JWT)
-- **Spring Data JPA**
-- **MySQL 8.0**
-- **Swagger/OpenAPI 3**
-- **Maven**
-- **Java 17**
+Para problemas o dudas sobre el sistema, contactar al desarrollador.
 
-## 🚀 Despliegue
+## 📄 Licencia
 
-### Para Railway
-1. Crear cuenta en Railway
-2. Conectar repositorio GitHub
-3. Configurar variables de entorno para base de datos
-4. Desplegar automáticamente
-
-### Para Render
-1. Crear cuenta en Render
-2. Conectar repositorio
-3. Configurar como Web Service
-4. Establecer variables de entorno
-
-## 📝 Decisiones Técnicas
-
-1. **JWT sin base de datos**: Tokens stateless para mejor escalabilidad
-2. **Soft Delete**: Los productos se marcan como inactivos en lugar de eliminarse
-3. **Roles granulares**: Sistema de autorización flexible con roles y permisos
-4. **Validaciones centralizadas**: Manejo global de errores y validaciones
-5. **Documentación automática**: Swagger integrado para facilitar testing
-
-## 🔮 Posibles Mejoras
-
-1. **Cache**: Implementar Redis para cachear consultas frecuentes
-2. **Paginación**: Agregar paginación a listados de productos
-3. **Upload de imágenes**: Servicio para subir imágenes de productos
-4. **Auditoría**: Sistema completo de auditoría de cambios
-5. **Notificaciones**: Sistema de notificaciones para stock bajo
-6. **Tests**: Suite completa de tests unitarios e integración
-
-## 👨‍💻 Autor
-
-**Estudiante Pérez**  
-Tecsup - Desarrollo de Aplicaciones Web  
-Email: estudiante@tecsup.edu.pe
+Este proyecto es para uso académico - TECSUP
