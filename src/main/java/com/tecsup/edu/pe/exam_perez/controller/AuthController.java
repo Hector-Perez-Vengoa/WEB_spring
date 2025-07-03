@@ -108,8 +108,10 @@ public class AuthController {
     })
     public ResponseEntity<ApiResponse<User>> register(@Valid @RequestBody User user) {
         try {
-            // Establecer rol por defecto como USER
-            user.setRole(User.Role.USER);
+            // Si no se especifica rol, establecer USER como defecto
+            if (user.getRole() == null) {
+                user.setRole(User.Role.USER);
+            }
 
             User newUser = userService.createUser(user);
 
